@@ -1,0 +1,64 @@
+### wolf api test
+
+
+### Base URL
+
+@base_url = http://wolf.dev.datatist.cn
+@dept_ids = 678
+@project_id = qvAD1jk8q0hA0Oxm
+
+
+### LOGIN
+
+POST {{base_url}}/analyzer/analyzer/account/autoTestLogin.do HTTP/1.1
+Accept-Language: zh_CN
+Content-Type: application/x-www-form-urlencoded
+
+encryptLoginParams=eyJ1c2VybmFtZSI6IjE1NjgzMTAwNDc1IiwicGFzc3dvcmQiOiJhYmNkMTIzNCIsInJlbWVtYmVyTWUiOmZhbHNlLCJzY29wZSI6IkFOQUxZWkVSIn0=
+
+
+### QUERY_SEGMENT
+
+POST {{base_url}}/analyzer/analyzer/segment/query.do HTTP/1.1
+Accept-Language: zh_CN
+Content-Type: application/json
+Project-Id: {{project_id}}
+Dept-Ids: {{dept_ids}}
+Authorization: {{LOGIN.response.headers['Authorization']}}
+Accept: application/json
+
+{
+  "page": 1,
+  "search": [],
+  "size": 10
+}
+
+
+### QUERY_SCENARIO_CODE
+
+POST {{base_url}}/analyzer/analyzer/scenario/listUserScenario.do HTTP/1.1
+Accept-Language: zh_CN
+Content-Type: application/json
+Project-Id: {{project_id}}
+Dept-Ids: {{dept_ids}}
+Authorization: {{LOGIN.response.headers['Authorization']}}
+Accept: application/json
+
+{
+  "page": 1
+}
+
+
+### QUERY_FILTER_PROPERTIES
+
+POST {{base_url}}/analyzer/analyzer/dataEngine/findFilterPropertyList.do HTTP/1.1
+Accept-Language: zh_CN
+Content-Type: application/json
+Project-Id: {{project_id}}
+Dept-Ids: {{dept_ids}}
+Authorization: {{LOGIN.response.headers['Authorization']}}
+Accept: application/json
+
+{
+  "name": ""
+}

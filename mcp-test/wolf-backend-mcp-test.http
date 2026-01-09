@@ -1,0 +1,63 @@
+### Test MCP Server HTTP API
+
+
+### This file tests the DataAnalytics MCP server endpoints
+
+
+### Base URL
+
+@base_url = http://localhost:8000/mcp
+
+
+### INIT
+
+POST {{base_url}} HTTP/1.1
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "tools": {}
+    },
+    "clientInfo": {
+      "name": "HTTP Client",
+      "version": "1.0.0"
+    },
+    "protocolVersion": "2024-11-05"
+  }
+}
+
+
+### LIST
+
+POST {{base_url}} HTTP/1.1
+Content-Type: application/json
+Accept: application/json, text/event-stream
+Mcp-Session-Id: {{INIT.response.headers['mcp-session-id']}}
+
+{
+  "id": 2,
+  "jsonrpc": "2.0",
+  "method": "tools/list"
+}
+
+
+### LOGIN
+
+POST {{base_url}} HTTP/1.1
+Content-Type: application/json
+Accept: application/json, text/event-stream
+Mcp-Session-Id: {{INIT.response.headers['mcp-session-id']}}
+
+{
+  "id": 3,
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "login"
+  }
+}
