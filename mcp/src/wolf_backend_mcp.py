@@ -24,7 +24,8 @@ async def login() -> str:
     Returns:
         登录用户的信息
     """
-    return json.dumps(login_service.login({}))
+    login_info = await login_service.login()
+    return json.dumps(login_info)
 
 
 if __name__ == "__main__":
