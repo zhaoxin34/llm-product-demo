@@ -2,10 +2,11 @@ import httpx
 import json
 import base64
 
-BASE_URL = "http://wolf.dev.datatist.cn"
+from service.base_service import BASE_URL, check_resp_rt_body
 
 
 async def login() -> dict:
+    """调用登录方法"""
     # 构造登录参数 (基于api-test.http中的示例)
     login_params = {
         "username": "15683100475",  # 用户名
@@ -20,5 +21,26 @@ async def login() -> dict:
 
     # 构造请求URL
     login_url = f"{BASE_URL}/analyzer/analyzer/account/autoTestLogin.do"
-    return {"test": "abc"}
 
+    # 发送POST请求
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            login_url,
+            data={"encryptLoginParams": encoded_params},
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+        response.raise_for_status()
+        body = check_resp_rt_body(response.json())
+        authrozition = response.headers["authorization"]
+        return {"user_info": body, "authrozition": authrozition}
+
+
+if __name__ == "__main__":
+
+    async def main():
+        body = await login()
+        print(body)
+
+    import asyncio
+
+    asyncio.run(main())
