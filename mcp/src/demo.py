@@ -14,6 +14,8 @@ from starlette.routing import Mount
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
+from mcp_session import McpSession
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -55,6 +57,23 @@ async def get_system_status(ctx: Context) -> str:
     }
 
     return json.dumps(status, indent=2)
+
+
+@mcp.tool()
+async def get_session(ctx: Context) -> str:
+    """
+    Test the session
+
+    Returns:
+        A Session
+    """
+    try:
+        session = McpSession.get_session(ctx.request_context.request)
+        counter = session.get("counter", 1)
+        session["counter"] = counter + 1
+        return f"counter: {counter}"
+    except Exception as e:
+        return f"发生错误: {e}"
 
 
 # Create a lifespan context manager to run the session manager
