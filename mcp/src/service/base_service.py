@@ -6,6 +6,7 @@ class WolfResponseException(Exception):
     """
     wolf响应的错误
     """
+
     def __init__(self, code: int, message: str):
         super().__init__(message)
         self.code = code
@@ -15,7 +16,7 @@ class WolfResponseException(Exception):
         return f"code：{self.code}; {self.message}"
 
 
-def check_resp_rt_body(response: dict) -> dict:
+def check_resp_rt_body(response: dict) -> any:
     """
     检查response是否合法，并正确返回，如果返回是合法的，那么将body返回
     """
@@ -27,9 +28,10 @@ def check_resp_rt_body(response: dict) -> dict:
     body = response.get("body")
     if code is None or code != 0:
         raise WolfResponseException(code, message)
-    return body or {}
+    return body
 
-class WolfSession():
+
+class WolfSession:
     """
     管理session
     """

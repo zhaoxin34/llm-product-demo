@@ -5,7 +5,7 @@ from mcp.server.session import ServerSession
 from mcp.shared.memory import (
     create_connected_server_and_client_session as client_session,
 )
-from wolf_backend_mcp import mcp
+from app import mcp
 
 
 @pytest.mark.asyncio

@@ -9,8 +9,8 @@ async def login() -> dict:
     """调用登录方法"""
     # 构造登录参数 (基于api-test.http中的示例)
     login_params = {
-        "username": "15683100475",  # 用户名
-        "password": "abcd1234",  # 密码
+        "username": "analyzer1@datatist.com",  # 用户名
+        "password": "Abc123@@@@@@",  # 密码
         "rememberMe": False,  # 记住我
         "scope": "ANALYZER",  # 系统代码
     }
@@ -32,7 +32,7 @@ async def login() -> dict:
         response.raise_for_status()
         body = check_resp_rt_body(response.json())
         authrozition = response.headers["authorization"]
-        return {"user_info": body, "authrozition": authrozition}
+        return {"user_info": {"userId": body["userId"]}, "authrozition": authrozition}
 
 
 if __name__ == "__main__":

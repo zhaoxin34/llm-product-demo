@@ -9,6 +9,9 @@ from typing import AsyncIterator
 from contextlib import asynccontextmanager
 from server.server_context import ServerContext
 
+# 向mcp服务器注册wolf
+from wolf_backend_mcp import regist_mcp
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,7 +35,7 @@ class RequestLoggerMiddleware(BaseHTTPMiddleware):
 
 # Create MCP server instance
 mcp = FastMCP(
-    "DataAnalytics MCP", stateless_http=False, json_response=True, lifespan=lifespan
+    "Wolf Application MCP", stateless_http=False, json_response=True, lifespan=lifespan
 )
 
 
@@ -51,4 +54,7 @@ app = Starlette(
     lifespan=app_lifespan,
 )
 
-# app.add_middleware(RequestLoggerMiddleware)
+app.add_middleware(RequestLoggerMiddleware)
+
+
+regist_mcp(mcp)
